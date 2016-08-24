@@ -6,7 +6,7 @@
 /*   By: suvitiel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 04:53:10 by suvitiel          #+#    #+#             */
-/*   Updated: 2016/08/24 06:26:55 by suvitiel         ###   ########.fr       */
+/*   Updated: 2016/08/24 07:43:27 by suvitiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ int	ft_find_the_biggest(int i, int j, t_bsq bsq)
 		else
 			break;
 	}
-	ft_putstr("Le carre est de taille: ");
+/*	ft_putstr("Le carre est de taille: ");
 	ft_putnbr(carre);
 	ft_putstr(" et commence en position :");
 	ft_putnbr(i);
 	ft_putstr(",");
 	ft_putnbr(j);
-	ft_putchar('\n');
-	return (carre);
+	ft_putchar('\n'); // DEBUG
+*/	return (carre);
 }
 
 t_bsq	ft_eval_soluce(t_bsq bsq, int i, int j)
@@ -121,10 +121,12 @@ t_bsq	ft_eval_soluce(t_bsq bsq, int i, int j)
 	}
 	else
 	{
-		// comparer les cordonnes pour prendre celui le plus en haut a gauche !!!!!!!!!!
-		bsq.sol.value = newvalue;
-		bsq.sol.i = i;
-		bsq.sol.j = j;
+		if (bsq.sol.i + bsq.sol.j > i + j)
+		{
+			bsq.sol.value = newvalue;
+			bsq.sol.i = i;
+			bsq.sol.j = j;
+		}
 	}
 	return (bsq);
 }
@@ -171,9 +173,9 @@ void	ft_matrix(t_bsq bsq)
 		j = 0;
 		i++;
 	}
-	ft_print_matrice(bsq);
+//	ft_print_matrice(bsq); //DEBUG --> Affiche la matrice
 	bsq = ft_main_algo(bsq);
-/// Debug
+/*// Debug
 	ft_putstr("\n\nLe plus grand carre se trouve en : {");
 	ft_putnbr(bsq.sol.i);
 	ft_putstr(", ");
@@ -182,22 +184,55 @@ void	ft_matrix(t_bsq bsq)
 	ft_putnbr(bsq.sol.value);
 	ft_putstr("\n");
 // Fin debug / fin algo, remplir la new map puis afficher;
-
+*/
 	bsq = ft_upgrade_bsq(bsq);
 	ft_put_bsq(bsq);
 }
 
-// moins petite map
+// test generateur de map a degager !!!!!!!
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+t_case	**ft_init_map_test(t_case **tab, int size_i, int size_j)
+{
+	int MIN = 1, MAX = 100, z = 0;
+	srand(time(NULL));
+
+
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i < size_i)
+	{
+		while (j < size_j)
+		{
+			z = MIN + (rand() % (MAX - MIN +1));
+			if (z > 3)
+				tab[i][j].number = 'o';
+			else
+				tab[i][j].number = 'x';
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	return (tab);
+}
+
 int main()
 {
 	t_bsq	bsq;
 	t_case	**tab;
 
-	bsq.size_i = 7;
-	bsq.size_j = 6;
-	bsq.obstacle = '1';
-	bsq.vide = '0';
-	bsq.plein = 'X';
+	bsq.size_i = 10;
+	bsq.size_j = 10;
+	bsq.obstacle = 'x';
+	bsq.vide = 'o';
+	bsq.plein = 'H';
 	bsq.sol.value = 0;
 
 	tab = (t_case**)malloc(sizeof(t_case*) * bsq.size_i);
@@ -207,7 +242,8 @@ int main()
 		tab[i] = (t_case*)malloc(sizeof(t_case) * bsq.size_j);
 		i++;
 	}
-	tab[0][0].number = '0';
+	tab = ft_init_map_test(tab, bsq.size_i, bsq.size_j);
+/*	tab[0][0].number = '0';
 	tab[0][1].number = '0';
 	tab[0][2].number = '0';
 	tab[0][3].number = '0';
@@ -249,7 +285,7 @@ int main()
 	tab[6][3].number = '1';
 	tab[6][4].number = '0';
 	tab[6][5].number = '0';
-	bsq.tab = tab;
-	ft_put_bsq(bsq);
+*/	bsq.tab = tab;
+//	ft_put_bsq(bsq); // BSQ d'entree
 	ft_matrix(bsq);
 }
