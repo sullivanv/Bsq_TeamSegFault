@@ -1,40 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bsq.h                                              :+:      :+:    :+:   */
+/*   fonction_print.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: suvitiel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/24 04:19:23 by suvitiel          #+#    #+#             */
-/*   Updated: 2016/08/24 05:02:32 by suvitiel         ###   ########.fr       */
+/*   Created: 2016/08/24 04:57:16 by suvitiel          #+#    #+#             */
+/*   Updated: 2016/08/24 05:00:18 by suvitiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BSQ_H
-# define BSQ_H
+#include "bsq.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct	s_case
+void	ft_putchar(char c)
 {
-	char	number;
-	int		left;
-	int		top;
-}				t_case;
+	write(1, &c, 1);
+}
 
-typedef struct	s_bsq
+void	ft_putstr(char *str)
 {
-	int		size_i;
-	int		size_j;
-	t_case	**tab;
-	char	obstacle;
-	char	plein;
-	char	vide;
-}				t_bsq;
+	int i;
 
-void			ft_putchar(char c);
-void			ft_putstr(char *str);
-void			ft_putnbr(int nbr);
+	i = 0;
+	while (str[i])
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
+}
 
-#endif
+void	my_put_unsigned(unsigned int nb)
+{
+	if (nb >= 10)
+	{
+		my_put_unsigned(nb / 10);
+		my_put_unsigned(nb % 10);
+	}
+	else
+	{
+		ft_putchar(nb + '0');
+	}
+}
+
+void	ft_putnbr(int nb)
+{
+	if (nb < 0)
+	{
+		ft_putchar('-');
+		nb = -nb;
+	}
+	my_put_unsigned(nb);
+}

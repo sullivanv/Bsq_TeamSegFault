@@ -6,52 +6,11 @@
 /*   By: suvitiel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 04:53:10 by suvitiel          #+#    #+#             */
-/*   Updated: 2016/08/24 04:53:11 by suvitiel         ###   ########.fr       */
+/*   Updated: 2016/08/24 05:04:12 by suvitiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "bsq.h"
-
-void ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void ft_putstr(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		ft_putchar(str[i]);
-		i++;
-	}
-}
-
-void my_put_unsigned(unsigned int nb)
-{
-	if (nb >= 10)
-	{
-		my_put_unsigned(nb / 10);
-		my_put_unsigned(nb % 10);
-	}
-	else
-	{
-		ft_putchar(nb + '0');
-	}
-}
-
-void ft_putnbr(int nb)
-{
-	if (nb < 0)
-	{
-		ft_putchar('-');
-		nb = -nb;
-	}
-	my_put_unsigned(nb);
-}
 
 t_case	ft_count_left_top(t_bsq bsq, int i, int j)
 {
@@ -83,13 +42,13 @@ t_case	ft_count_left_top(t_bsq bsq, int i, int j)
 
 void	ft_print_matrice(t_bsq bsq)
 {
-    int i = 0;
-    int j = 0;
+	int i = 0;
+	int j = 0;
 
-    while (i < bsq.size_i)
-    {
-        while (j < bsq.size_j)
-        {
+	while (i < bsq.size_i)
+	{
+		while (j < bsq.size_j)
+		{
 			if (bsq.tab[i][j].number == bsq.obstacle)
 			{
 				ft_putchar('\t');
@@ -108,15 +67,14 @@ void	ft_print_matrice(t_bsq bsq)
 				ft_putnbr(bsq.tab[i][j].top);
 				ft_putchar('\t');
 			}
-            j++;
-        }
+			j++;
+		}
 		ft_putchar('\n');
 		ft_putchar('\n');
-        j = 0;
-        i++;
-    }
+		j = 0;
+		i++;
+	}
 }
-
 
 int	ft_find_the_biggest(int i, int j, t_bsq bsq)
 {
@@ -128,10 +86,10 @@ int	ft_find_the_biggest(int i, int j, t_bsq bsq)
 	test_i = i;
 	test_j = j;   
 	while (bsq.tab[test_i][test_j].number != bsq.obstacle &&
-		   test_i + 1 < bsq.size_i && test_j + 1 < bsq.size_j)
+			test_i + 1 < bsq.size_i && test_j + 1 < bsq.size_j)
 	{
 		if ((bsq.tab[test_i + 1][test_j + 1].left > (test_j + 1) - j) &&
-			(bsq.tab[test_i + 1][test_j + 1].top > (test_i + 1) - i))
+				(bsq.tab[test_i + 1][test_j + 1].top > (test_i + 1) - i))
 		{
 			test_i++;
 			test_j++;
@@ -148,8 +106,8 @@ int	ft_find_the_biggest(int i, int j, t_bsq bsq)
 	ft_putnbr(j);
 	ft_putchar('\n');
 	return (carre);
-//	exit(0);
-//	return (carre);
+	//	exit(0);
+	//	return (carre);
 }
 
 void	ft_main_algo(t_bsq bsq)
@@ -171,8 +129,8 @@ void	ft_main_algo(t_bsq bsq)
 		{
 			if (bsq.tab[i][j].number != bsq.plein)
 			{
-//				if (carremax <= ft_find_the_biggest(bsq.tab, i, j, bsq.size_i, bsq.size_j))
-					carremax = ft_find_the_biggest(i, j, bsq);
+				//				if (carremax <= ft_find_the_biggest(bsq.tab, i, j, bsq.size_i, bsq.size_j))
+				carremax = ft_find_the_biggest(i, j, bsq);
 			}
 			j++;
 		}
@@ -263,7 +221,7 @@ int main()
 	tab[6][3].number = '0';
 	tab[6][4].number = '0';
 	tab[6][5].number = '0';
-//	ft_putstr("ok\n");
+	//	ft_putstr("ok\n");
 	bsq.tab = tab;
 	ft_matrix(bsq);
 }
