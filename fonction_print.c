@@ -6,7 +6,7 @@
 /*   By: suvitiel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 04:57:16 by suvitiel          #+#    #+#             */
-/*   Updated: 2016/08/24 05:00:18 by suvitiel         ###   ########.fr       */
+/*   Updated: 2016/08/24 06:18:26 by suvitiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,26 @@
 void	ft_putchar(char c)
 {
 	write(1, &c, 1);
+}
+
+void	ft_put_bsq(t_bsq bsq)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i < bsq.size_i)
+	{
+		while (j < bsq.size_j)
+		{
+			ft_putchar(bsq.tab[i][j].number);
+			j++;
+		}
+		ft_putchar('\n');
+		i++;
+		j = 0;
+	}
 }
 
 void	ft_putstr(char *str)

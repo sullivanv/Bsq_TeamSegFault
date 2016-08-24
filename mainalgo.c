@@ -6,7 +6,7 @@
 /*   By: suvitiel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 04:53:10 by suvitiel          #+#    #+#             */
-/*   Updated: 2016/08/24 05:04:12 by suvitiel         ###   ########.fr       */
+/*   Updated: 2016/08/24 06:26:55 by suvitiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_find_the_biggest(int i, int j, t_bsq bsq)
 		else
 			break;
 	}
-	ft_putstr("Le plus grand carre est de taille: ");
+	ft_putstr("Le carre est de taille: ");
 	ft_putnbr(carre);
 	ft_putstr(" et commence en position :");
 	ft_putnbr(i);
@@ -106,37 +106,51 @@ int	ft_find_the_biggest(int i, int j, t_bsq bsq)
 	ft_putnbr(j);
 	ft_putchar('\n');
 	return (carre);
-	//	exit(0);
-	//	return (carre);
 }
 
-void	ft_main_algo(t_bsq bsq)
+t_bsq	ft_eval_soluce(t_bsq bsq, int i, int j)
+{
+	int newvalue;
+
+	newvalue = ft_find_the_biggest(i, j, bsq);
+	if (newvalue > bsq.sol.value)
+	{
+		bsq.sol.value = newvalue;
+		bsq.sol.i = i;
+		bsq.sol.j = j;
+	}
+	else
+	{
+		// comparer les cordonnes pour prendre celui le plus en haut a gauche !!!!!!!!!!
+		bsq.sol.value = newvalue;
+		bsq.sol.i = i;
+		bsq.sol.j = j;
+	}
+	return (bsq);
+}
+
+t_bsq	ft_main_algo(t_bsq bsq)
 {
 	int i;
 	int j;
-	int carremax;
-	int i_carre;
-	int j_carre;
 
 	i = 0;
 	j = 0;
-	carremax = 1;
-	i_carre = 0;
-	j_carre = 0;
 	while (i < bsq.size_i)
 	{
 		while (j < bsq.size_j)
 		{
-			if (bsq.tab[i][j].number != bsq.plein)
+			if (bsq.tab[i][j].number != bsq.obstacle)
 			{
-				//				if (carremax <= ft_find_the_biggest(bsq.tab, i, j, bsq.size_i, bsq.size_j))
-				carremax = ft_find_the_biggest(i, j, bsq);
+				if (bsq.sol.value <= ft_find_the_biggest(i, j, bsq))
+					bsq = ft_eval_soluce(bsq, i, j);
 			}
 			j++;
 		}
 		j = 0;
 		i++;
 	}
+	return (bsq);
 }
 
 void	ft_matrix(t_bsq bsq)
@@ -158,7 +172,19 @@ void	ft_matrix(t_bsq bsq)
 		i++;
 	}
 	ft_print_matrice(bsq);
-	ft_main_algo(bsq);
+	bsq = ft_main_algo(bsq);
+/// Debug
+	ft_putstr("\n\nLe plus grand carre se trouve en : {");
+	ft_putnbr(bsq.sol.i);
+	ft_putstr(", ");
+	ft_putnbr(bsq.sol.j);
+	ft_putstr("}. Il est de taille :");
+	ft_putnbr(bsq.sol.value);
+	ft_putstr("\n");
+// Fin debug / fin algo, remplir la new map puis afficher;
+
+	bsq = ft_upgrade_bsq(bsq);
+	ft_put_bsq(bsq);
 }
 
 // moins petite map
@@ -171,6 +197,8 @@ int main()
 	bsq.size_j = 6;
 	bsq.obstacle = '1';
 	bsq.vide = '0';
+	bsq.plein = 'X';
+	bsq.sol.value = 0;
 
 	tab = (t_case**)malloc(sizeof(t_case*) * bsq.size_i);
 	int i = 0;
@@ -179,11 +207,11 @@ int main()
 		tab[i] = (t_case*)malloc(sizeof(t_case) * bsq.size_j);
 		i++;
 	}
-	tab[0][0].number = '1';
+	tab[0][0].number = '0';
 	tab[0][1].number = '0';
 	tab[0][2].number = '0';
 	tab[0][3].number = '0';
-	tab[0][4].number = '0';
+	tab[0][4].number = '1';
 	tab[0][5].number = '0';
 	tab[1][0].number = '0';
 	tab[1][1].number = '0';
@@ -191,11 +219,11 @@ int main()
 	tab[1][3].number = '0';
 	tab[1][4].number = '0';
 	tab[1][5].number = '0';
-	tab[2][0].number = '0';
+	tab[2][0].number = '1';
 	tab[2][1].number = '0';
 	tab[2][2].number = '0';
 	tab[2][3].number = '0';
-	tab[2][4].number = '0';
+	tab[2][4].number = '1';
 	tab[2][5].number = '0';
 	tab[3][0].number = '0';
 	tab[3][1].number = '0';
@@ -218,10 +246,10 @@ int main()
 	tab[6][0].number = '0';
 	tab[6][1].number = '0';
 	tab[6][2].number = '0';
-	tab[6][3].number = '0';
+	tab[6][3].number = '1';
 	tab[6][4].number = '0';
 	tab[6][5].number = '0';
-	//	ft_putstr("ok\n");
 	bsq.tab = tab;
+	ft_put_bsq(bsq);
 	ft_matrix(bsq);
 }
