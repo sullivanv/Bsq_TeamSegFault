@@ -6,26 +6,31 @@
 #    By: suvitiel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/13 14:02:38 by suvitiel          #+#    #+#              #
-#    Updated: 2016/08/24 04:48:31 by suvitiel         ###   ########.fr        #
+#    Updated: 2016/08/25 01:49:19 by hanguelk         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-CC		= cc
-NAME	= *.c
+CC		= gcc
 OUT		= bsq
 RM		= rm -f
-WFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -I.
+SRC = main.c mainalgo.c upgradebsq.c fonction_print.c ft_realloc.c ft_strlen.c ft_strcat.c ft_atoi.c ft_split_whitespaces.c strfunc.c
+OBJ = $(SRC:.c=.o)
 
-all:	$(OUT)
+all:	compil
 
-$(OUT):
-	$(CC) $(WFLAGS) -o $(OUT) $(NAME)
+compil:
+	$(CC) $(CFLAGS) -c $(SRC)
+	$(CC) $(CFLAGS) -o $(OUT) $(OBJ)
 
 clean:	
-	$(RM) *~
+	$(RM) $(OBJ)
+
+debug:
+	$(CC) $(CFLAGS) -fsanitize=address -o $(OUT) $(SRC)
 
 norme:	
-	norminette $(NAME) *.h
+	norminette $(SRC) *.h
 
 fclean:	clean
 	$(RM) $(OUT)

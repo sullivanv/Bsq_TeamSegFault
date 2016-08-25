@@ -6,7 +6,7 @@
 /*   By: suvitiel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 04:57:16 by suvitiel          #+#    #+#             */
-/*   Updated: 2016/08/24 06:18:26 by suvitiel         ###   ########.fr       */
+/*   Updated: 2016/08/24 20:09:40 by hanguelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	ft_put_bsq(t_bsq bsq)
 	{
 		while (j < bsq.size_j)
 		{
-			ft_putchar(bsq.tab[i][j].number);
+			if (bsq.tab[i][j].number == bsq.vide ||
+				bsq.tab[i][j].number == bsq.plein ||
+				bsq.tab[i][j].number == bsq.obstacle)
+				ft_putchar(bsq.tab[i][j].number);
 			j++;
 		}
 		ft_putchar('\n');
